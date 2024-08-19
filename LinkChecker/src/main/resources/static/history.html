@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Link Checker Data</title>
+   <!-- Example URLs for Kendo UI resources from Telerik CDN -->
+ <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.2.714/styles/kendo.common.min.css">
+    <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2016.2.714/styles/kendo.default.min.css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2016.2.714/js/kendo.all.min.js"></script>
+<style>
+	.home-button {
+            position: fixed;
+            top: 1px;
+            right: 20px;
+            padding: 10px;
+            background-color:black;
+            color: whitesmoke;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 999; /* Ensure the button is above other elements */
+        }
+        
+</style>
+</head>
+<body>
+	<button class="home-button" onclick="goToHomePage()">Home</button>
+	
+	<br><br>
+    <div id="grid"></div>
+
+    <script>
+		function goToHomePage() {
+            // Replace 'index.html' with your home page URL
+            window.location.href = 'index.html';
+        }
+        $(document).ready(function () {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "http://localhost:8080/link/data", // Replace with your backend URL
+                            dataType: "json"
+                        }
+                    },
+                    pageSize: 10 // Set your desired page size
+                },
+                height: 500,
+                sortable: true,
+                pageable: true,
+                columns: [
+                    { field: "id", title: "ID" },
+                    { field: "status", title: "STATUS" },
+                    
+                     { 
+                field: "url", 
+                title: "URL", 
+                template: '<a href="#: url #" target="_blank">#: url #</a>'
+                // This template creates a hyperlink using the 'url' field as the href attribute value
+            },
+                    { field: "time", title: "TIME" },
+                    { field: "statusCode", title: "STATUS CODE"}
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
